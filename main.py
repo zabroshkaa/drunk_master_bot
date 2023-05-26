@@ -23,6 +23,12 @@ async def event_ready():
 
 @bot.command(name='say')
 async def say(ctx, *, message: str):
+    if len(message) > 50:
+        await ctx.send("Сообщение слишком длинное. Максимальная длина - 50 символов.")
+        return
+    if not all(c.isalpha() and 'а' <= c.lower() <= 'я' or c == " " for c in message):
+        await ctx.send("Сообщение должно содержать только русские буквы.")
+        return
     engine = pyttsx3.init()
     engine.setProperty('volume', 1.0)
     engine.setProperty('rate', engine.getProperty('rate') - 50)
